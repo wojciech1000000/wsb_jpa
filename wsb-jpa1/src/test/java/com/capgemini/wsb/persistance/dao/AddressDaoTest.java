@@ -21,12 +21,11 @@ public class AddressDaoTest
     @Transactional
     @Test
     public void testShouldFindAddressById() {
-        // given
         // when
         AddressEntity addressEntity = addressDao.findOne(1L);
         // then
         assertThat(addressEntity).isNotNull();
-        assertThat(addressEntity.getPostalCode()).isEqualTo("62-030");
+        assertThat(addressEntity.getPostalCode()).isEqualTo("10001");
     }
 
     @Test

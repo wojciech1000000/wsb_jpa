@@ -1,6 +1,8 @@
 package com.capgemini.wsb.persistence.entity;
 
+
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "PATIENT")
@@ -15,6 +18,7 @@ public class PatientEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long id;
 
 	@Column(nullable = false)
@@ -33,6 +37,33 @@ public class PatientEntity {
 
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
+	
+	
+	@Column(nullable = false)
+	private Integer age;
+
+	
+
+	//Relacja dwustronna
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
+	private AddressEntity address;
+
+	public AddressEntity getAddress() {
+		return address;
+	}
+
+	public void setAddress(AddressEntity address) {
+		this.address = address;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
 
 	public Long getId() {
 		return id;
@@ -89,5 +120,16 @@ public class PatientEntity {
 	public void setDateOfBirth(LocalDate dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
+
+    public void setVisitsList(List<VisitEntity> visitEntities) {
+
+        throw new UnsupportedOperationException("Unimplemented method 'setVisitsList'");
+    }
+
+    public List<PatientEntity> getVisits() {
+
+        throw new UnsupportedOperationException("Unimplemented method 'getVisits'");
+    }
+
 
 }

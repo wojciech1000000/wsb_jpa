@@ -13,3 +13,8 @@ Napisz testy do zapytan w nastepujacej formie:
 2. do zapytania nr 2 - test serwisu
 3. do zapytania nr 3 - test DAO
 4. do zapytania nr 4 - test DAO
+
+SELECT Last_name FROM patient;
+SELECT * FROM visit where Patient_ID = 1;
+SELECT p.* FROM PATIENT p JOIN VISIT v ON p.id=v.patient_id GROUP BY p.id HAVING COUNT(v.id) > 1;
+SELECT * FROM patient WHERE AGE > 40;
