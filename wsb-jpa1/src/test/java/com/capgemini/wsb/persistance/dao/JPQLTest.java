@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.wsb.persistence.dao.PatientDao;
+import com.capgemini.wsb.persistence.dao.impl.VisitDao;
 import com.capgemini.wsb.persistence.entity.PatientEntity;
 import com.capgemini.wsb.persistence.entity.VisitEntity;
 import com.capgemini.wsb.service.PatientService;
@@ -23,6 +24,9 @@ public class JPQLTest {
 
     @Autowired
     private PatientDao patientDao;
+
+    @Autowired
+    private VisitDao visitDao;
 
     @Autowired
     private PatientService patientService;
@@ -47,12 +51,16 @@ public class JPQLTest {
 
     @Test
     public void testFindPatientsWithMoreThanXVisits() {
-        int visitCount = 3;
+        int visitCount = 2;
         List<PatientEntity> patients = patientDao.findPatientsWithMoreThanXVisits(visitCount);
         assertNotNull(patients);
         assertFalse(patients.isEmpty());
-        assertTrue(patients.stream().allMatch(patient -> patient.getVisits().size() > visitCount));
+        assertTrue(patients.stream().allMatch(patient -> {
+            List<VisitEntity> visits = visitDao.findAllByPatientId(patient.getId());
+            return visits.size() > visitCount;
+        }));
     }
+
 
     @Test
     public void testFindPatientsByAgeGreaterThan() {

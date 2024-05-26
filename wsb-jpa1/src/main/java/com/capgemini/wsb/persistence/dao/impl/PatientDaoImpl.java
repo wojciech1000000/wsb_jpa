@@ -28,13 +28,6 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
                             .setParameter("ids", ids)
                             .getResultList();
     }
-
-    @Override
-    public List<PatientEntity> findPatientsWithMoreThanXVisits(Integer visitCount) {
-        return entityManager.createQuery("SELECT p FROM PatientEntity p WHERE p.visitCount > :visitCount", PatientEntity.class)
-                            .setParameter("visitCount", visitCount)
-                            .getResultList();
-    }
     
     @Override
     public <S extends PatientEntity> List<S> saveAll(Iterable<S> entities) {
@@ -141,5 +134,14 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
     public void deletePatientVisits(Long patientId) {
         throw new UnsupportedOperationException("Unimplemented method 'deletePatientVisits'");
     }
-    
+
+    @Override
+    public List<PatientEntity> findPatientsWithMoreThanXVisits(int X) {
+        return entityManager.createQuery(
+            "SELECT p FROM PatientEntity p WHERE (SELECT COUNT(v) FROM VisitEntity v WHERE v.patientId = p.id) > :X",
+            PatientEntity.class)
+            .setParameter("X", X)
+            .getResultList();
+    }
 }
+    

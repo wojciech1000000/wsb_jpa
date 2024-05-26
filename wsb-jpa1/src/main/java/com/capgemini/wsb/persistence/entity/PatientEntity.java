@@ -43,7 +43,6 @@ public class PatientEntity {
 	private Integer age;
 
 	
-
 	//Relacja dwustronna
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
